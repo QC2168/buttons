@@ -1,18 +1,12 @@
-import * as path from 'path';
-import { Configuration as WebpackConfiguration } from 'webpack';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ESLintPlugin from 'eslint-webpack-plugin';
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-interface Configuration extends WebpackConfiguration {
-  devServer ?: WebpackDevServerConfiguration;
-}
-const config: Configuration = {
+module.exports = {
   mode: 'development',
   entry: {
-    main: './src/main.ts',
-    index: './src/pages/index/index.ts', // index页面
-    hello: './src/pages/hello/hello.ts', // hello页面
+    main: './src/main.js',
+    index: './src/pages/index/index.js', // index页面
+    hello: './src/pages/hello/hello.js', // hello页面
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -53,11 +47,6 @@ const config: Configuration = {
         type: 'asset/resource',
       },
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
         // 处理html文件中的img图片（负责引入img，从而能被url-loader进行处理）
         test: /\.html$/,
         loader: 'html-loader',
@@ -68,7 +57,7 @@ const config: Configuration = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.js'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -83,11 +72,5 @@ const config: Configuration = {
       template: './src/pages/hello/hello.html',
       chunks: ['hello', 'main'],
     }),
-    new ESLintPlugin({
-      extensions: ['js', 'ts'],
-      exclude: '/node_modules/',
-    }),
   ],
 };
-
-export default config;
