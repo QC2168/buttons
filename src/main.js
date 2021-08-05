@@ -1,1 +1,1 @@
-console.log('main.ts');
+import './pages/common/common.scss';
